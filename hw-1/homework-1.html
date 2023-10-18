@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.4.398">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -18,11 +18,12 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -47,43 +48,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -97,10 +68,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="homework-1_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="homework-1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="homework-1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-
 <script src="homework-1_files/libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="homework-1_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -131,11 +103,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </div>
   
 
+
 </header>
 
-<div class="cell">
 
-</div>
 <section id="question-1" class="level2">
 <h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
 <p>We will start by computing group-time average treatment effects without including any covariates in the parallel trends assumption.</p>
@@ -156,76 +127,76 @@ $ occ_score &lt;dbl&gt; 4, 3, 4, 4, 4, 4, 2, 4, 2, 3, 4, 4, 4, 4, 3, 3, 3, 4, 4,
 </div>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(<span class="fu">head</span>(d))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
-<table>
- <thead>
-  <tr>
-   <th style="text-align:right;"> id </th>
-   <th style="text-align:right;"> year </th>
-   <th style="text-align:right;"> group </th>
-   <th style="text-align:right;"> income </th>
-   <th style="text-align:right;"> female </th>
-   <th style="text-align:right;"> white </th>
-   <th style="text-align:right;"> occ_score </th>
-  </tr>
- </thead>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">id</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">group</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">income</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">female</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">white</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">occ_score</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1984 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 31130 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1985 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 32200 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 3 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1986 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 35520 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1987 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 43600 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1988 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 39900 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 7900002 </td>
-   <td style="text-align:right;"> 1990 </td>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 38200 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 4 </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1984</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">31130</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1985</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">32200</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1986</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">35520</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1987</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">43600</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1988</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">39900</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">7900002</td>
+<td style="text-align: right;">1990</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">38200</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4</td>
+</tr>
 </tbody>
 </table>
+
 
 </div>
 </div>
@@ -240,599 +211,759 @@ $ occ_score &lt;dbl&gt; 4, 3, 4, 4, 4, 4, 2, 4, 2, 3, 4, 4, 4, 4, 3, 3, 3, 4, 4,
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">"group"</span>,</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control_group =</span> <span class="st">"nevertreated"</span>,</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">base_period =</span> <span class="st">"universal"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in pre_process_did(yname = yname, tname = tname, idname = idname, :
-Dropped 26 units that were already treated in the first period.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(gt_atts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(gt_atts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:center;"> &nbsp;(1) </th>
-  </tr>
- </thead>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&nbsp;(1)</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1984) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1985) </td>
-   <td style="text-align:center;"> −9455.758 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4059.534) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1986) </td>
-   <td style="text-align:center;"> −14981.155 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4475.901) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1987) </td>
-   <td style="text-align:center;"> −6129.213 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4376.853) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1988) </td>
-   <td style="text-align:center;"> −4815.918 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5037.228) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1990) </td>
-   <td style="text-align:center;"> −8011.917 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5902.614) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1991) </td>
-   <td style="text-align:center;"> −8164.492 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6208.256) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1992) </td>
-   <td style="text-align:center;"> −6325.888 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6107.486) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1985,1993) </td>
-   <td style="text-align:center;"> −9669.584 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5966.997) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1984) </td>
-   <td style="text-align:center;"> 1801.937 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (2581.311) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1985) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1986) </td>
-   <td style="text-align:center;"> −1919.447 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3480.874) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1987) </td>
-   <td style="text-align:center;"> −2596.819 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4560.837) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1988) </td>
-   <td style="text-align:center;"> −2081.753 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6978.333) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1990) </td>
-   <td style="text-align:center;"> −6064.094 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6591.554) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1991) </td>
-   <td style="text-align:center;"> −5903.964 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7324.695) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1992) </td>
-   <td style="text-align:center;"> −6804.483 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7846.782) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1986,1993) </td>
-   <td style="text-align:center;"> −1801.576 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7498.773) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1984) </td>
-   <td style="text-align:center;"> 3493.913 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7122.884) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1985) </td>
-   <td style="text-align:center;"> 8012.488 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4138.599) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1986) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1987) </td>
-   <td style="text-align:center;"> 7048.857 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6423.800) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1988) </td>
-   <td style="text-align:center;"> 4489.467 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7023.275) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1990) </td>
-   <td style="text-align:center;"> 8004.136 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7365.034) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1991) </td>
-   <td style="text-align:center;"> 9475.066 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7674.912) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1992) </td>
-   <td style="text-align:center;"> 8533.541 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (9814.912) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1987,1993) </td>
-   <td style="text-align:center;"> 7881.393 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7988.359) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1984) </td>
-   <td style="text-align:center;"> 15389.298 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5494.147) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1985) </td>
-   <td style="text-align:center;"> 7038.527 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3572.397) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1986) </td>
-   <td style="text-align:center;"> 3617.674 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3623.171) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1987) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1988) </td>
-   <td style="text-align:center;"> −1173.817 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3056.321) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1990) </td>
-   <td style="text-align:center;"> 280.626 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5887.217) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1991) </td>
-   <td style="text-align:center;"> 6099.727 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4490.906) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1992) </td>
-   <td style="text-align:center;"> 13737.817 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (13348.227) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1988,1993) </td>
-   <td style="text-align:center;"> 1688.782 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7814.129) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1984) </td>
-   <td style="text-align:center;"> −5341.730 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6501.381) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1985) </td>
-   <td style="text-align:center;"> −10623.267 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4731.353) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1986) </td>
-   <td style="text-align:center;"> −6969.094 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4387.543) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1987) </td>
-   <td style="text-align:center;"> −1034.199 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3500.217) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1988) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1990) </td>
-   <td style="text-align:center;"> −4343.949 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (11888.552) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1991) </td>
-   <td style="text-align:center;"> −21910.210 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4667.731) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1992) </td>
-   <td style="text-align:center;"> −15365.927 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4185.168) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1990,1993) </td>
-   <td style="text-align:center;"> −16411.105 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6405.319) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1984) </td>
-   <td style="text-align:center;"> 7721.820 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4134.678) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1985) </td>
-   <td style="text-align:center;"> 8613.107 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3631.535) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1986) </td>
-   <td style="text-align:center;"> 5796.471 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4037.518) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1987) </td>
-   <td style="text-align:center;"> 4456.416 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (3461.124) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1988) </td>
-   <td style="text-align:center;"> −2568.622 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6598.055) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1990) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1991) </td>
-   <td style="text-align:center;"> −12150.645 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4232.634) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1992) </td>
-   <td style="text-align:center;"> 1433.998 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4462.406) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1991,1993) </td>
-   <td style="text-align:center;"> −2679.828 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (6910.537) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1984) </td>
-   <td style="text-align:center;"> 23051.734 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (19243.045) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1985) </td>
-   <td style="text-align:center;"> 10941.677 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (12096.926) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1986) </td>
-   <td style="text-align:center;"> 7654.116 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (12708.654) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1987) </td>
-   <td style="text-align:center;"> 9954.145 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (9080.517) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1988) </td>
-   <td style="text-align:center;"> 2680.210 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (9060.829) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1990) </td>
-   <td style="text-align:center;"> 10031.703 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7698.968) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1991) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1992) </td>
-   <td style="text-align:center;"> −8990.850 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (4202.877) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1992,1993) </td>
-   <td style="text-align:center;"> −8662.612 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (14927.800) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1984) </td>
-   <td style="text-align:center;"> 4785.791 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (10563.236) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1985) </td>
-   <td style="text-align:center;"> −2638.873 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7925.458) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1986) </td>
-   <td style="text-align:center;"> −1960.967 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (7250.522) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1987) </td>
-   <td style="text-align:center;"> −536.828 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5814.859) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1988) </td>
-   <td style="text-align:center;"> 4241.427 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5168.394) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1990) </td>
-   <td style="text-align:center;"> 444.034 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (1975.933) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1991) </td>
-   <td style="text-align:center;"> 4108.917 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;">  </td>
-   <td style="text-align:center;"> (5269.370) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1992) </td>
-   <td style="text-align:center;"> 0.000 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ATT(1993,1993) </td>
-   <td style="text-align:center;"> −22828.362 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;box-shadow: 0px 1px">  </td>
-   <td style="text-align:center;box-shadow: 0px 1px"> (6205.673) </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Num.Obs. </td>
-   <td style="text-align:center;"> 1272 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Std.Errors </td>
-   <td style="text-align:center;"> by: id </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ngroup </td>
-   <td style="text-align:center;"> 8 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ntime </td>
-   <td style="text-align:center;"> 9 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> control.group </td>
-   <td style="text-align:center;"> nevertreated </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> est.method </td>
-   <td style="text-align:center;"> dr </td>
-  </tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1985,1984)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1985)</td>
+<td style="text-align: center;">−9455.758</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3875.850)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1986)</td>
+<td style="text-align: center;">−14981.155</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4373.869)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1987)</td>
+<td style="text-align: center;">−6129.213</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4720.380)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1988)</td>
+<td style="text-align: center;">−4815.918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4868.534)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1990)</td>
+<td style="text-align: center;">−8011.917</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5788.017)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1991)</td>
+<td style="text-align: center;">−8164.492</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6004.976)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1992)</td>
+<td style="text-align: center;">−6325.888</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6034.448)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1985,1993)</td>
+<td style="text-align: center;">−9669.584</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5842.929)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1986,1984)</td>
+<td style="text-align: center;">1801.937</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(2653.845)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1986,1985)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1986)</td>
+<td style="text-align: center;">−1919.447</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3544.165)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1987)</td>
+<td style="text-align: center;">−2596.819</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4692.816)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1988)</td>
+<td style="text-align: center;">−2081.753</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7297.703)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1990)</td>
+<td style="text-align: center;">−6064.094</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6826.206)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1991)</td>
+<td style="text-align: center;">−5903.964</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7040.903)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1992)</td>
+<td style="text-align: center;">−6804.483</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7330.882)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1986,1993)</td>
+<td style="text-align: center;">−1801.576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7420.135)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1987,1984)</td>
+<td style="text-align: center;">3493.913</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7148.713)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1987,1985)</td>
+<td style="text-align: center;">8012.488</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4416.955)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1987,1986)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1987)</td>
+<td style="text-align: center;">7048.857</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6540.907)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1988)</td>
+<td style="text-align: center;">4489.467</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6735.947)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1990)</td>
+<td style="text-align: center;">8004.136</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7307.049)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1991)</td>
+<td style="text-align: center;">9475.066</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7467.376)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1992)</td>
+<td style="text-align: center;">8533.541</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(9922.014)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1987,1993)</td>
+<td style="text-align: center;">7881.393</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7791.628)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1988,1984)</td>
+<td style="text-align: center;">15389.298</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5441.626)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1988,1985)</td>
+<td style="text-align: center;">7038.527</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3668.818)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1988,1986)</td>
+<td style="text-align: center;">3617.674</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3930.581)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1988,1987)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1988,1988)</td>
+<td style="text-align: center;">−1173.817</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3110.140)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1988,1990)</td>
+<td style="text-align: center;">280.626</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5743.504)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1988,1991)</td>
+<td style="text-align: center;">6099.727</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4222.516)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1988,1992)</td>
+<td style="text-align: center;">13737.817</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(13541.399)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1988,1993)</td>
+<td style="text-align: center;">1688.782</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(8048.183)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1990,1984)</td>
+<td style="text-align: center;">−5341.730</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6755.642)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1990,1985)</td>
+<td style="text-align: center;">−10623.267</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4647.735)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1990,1986)</td>
+<td style="text-align: center;">−6969.094</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4368.838)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1990,1987)</td>
+<td style="text-align: center;">−1034.199</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3265.269)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1990,1988)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1990,1990)</td>
+<td style="text-align: center;">−4343.949</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(12276.176)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1990,1991)</td>
+<td style="text-align: center;">−21910.210</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4801.681)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1990,1992)</td>
+<td style="text-align: center;">−15365.927</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3856.749)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1990,1993)</td>
+<td style="text-align: center;">−16411.105</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6411.353)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1984)</td>
+<td style="text-align: center;">7721.820</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4016.810)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1985)</td>
+<td style="text-align: center;">8613.107</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3607.419)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1986)</td>
+<td style="text-align: center;">5796.471</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3966.698)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1987)</td>
+<td style="text-align: center;">4456.416</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(3223.722)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1988)</td>
+<td style="text-align: center;">−2568.622</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(6048.346)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1991,1990)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1991,1991)</td>
+<td style="text-align: center;">−12150.645</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4276.932)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1991,1992)</td>
+<td style="text-align: center;">1433.998</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4554.255)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1991,1993)</td>
+<td style="text-align: center;">−2679.828</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7225.849)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1984)</td>
+<td style="text-align: center;">23051.734</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(19193.417)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1985)</td>
+<td style="text-align: center;">10941.677</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(12111.508)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1986)</td>
+<td style="text-align: center;">7654.116</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(12180.758)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1987)</td>
+<td style="text-align: center;">9954.145</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(9174.811)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1988)</td>
+<td style="text-align: center;">2680.210</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(9235.471)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1990)</td>
+<td style="text-align: center;">10031.703</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7873.840)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1992,1991)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1992,1992)</td>
+<td style="text-align: center;">−8990.850</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(4185.795)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1992,1993)</td>
+<td style="text-align: center;">−8662.612</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(14683.772)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1984)</td>
+<td style="text-align: center;">4785.791</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(9979.092)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1985)</td>
+<td style="text-align: center;">−2638.873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7813.926)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1986)</td>
+<td style="text-align: center;">−1960.967</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(7140.555)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1987)</td>
+<td style="text-align: center;">−536.828</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5945.250)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1988)</td>
+<td style="text-align: center;">4241.427</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5337.764)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1990)</td>
+<td style="text-align: center;">444.034</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(1973.511)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1991)</td>
+<td style="text-align: center;">4108.917</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(5675.241)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ATT(1993,1992)</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ATT(1993,1993)</td>
+<td style="text-align: center;">−22828.362</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(6737.626)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">1272</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Std.Errors</td>
+<td style="text-align: center;">by: id</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ngroup</td>
+<td style="text-align: center;">8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ntime</td>
+<td style="text-align: center;">9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">control.group</td>
+<td style="text-align: center;">nevertreated</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">est.method</td>
+<td style="text-align: center;">dr</td>
+</tr>
 </tbody>
 </table>
 
+
 </div>
+</div>
+<ol start="2" type="1">
+<li><em>Bonus Question</em> Try to manually calculate <span class="math inline">\(ATT(g=1992, t=1992)\)</span>. Can you calculate exactly the same number as in part (a)?</li>
+</ol>
+<p>The estimate in part (a) was -8990.85. This can be calculated by hand by restricting the sample to the group first treated in 1992 and the untreated group, as well as limiting to the years 1991 and 1992. We take the long difference in average income between 1991 and 1992 for the two groups (1992 and never treated) and then the difference between those long differences should be the estimate from part (a):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>d <span class="sc">%&gt;%</span> <span class="fu">filter</span>((group<span class="sc">==</span><span class="dv">1992</span> <span class="sc">|</span> group<span class="sc">==</span><span class="dv">0</span>) <span class="sc">&amp;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  (year<span class="sc">==</span><span class="dv">1991</span> <span class="sc">|</span> year<span class="sc">==</span><span class="dv">1992</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">g1992_1992 =</span> <span class="fu">if_else</span>(group<span class="sc">==</span><span class="dv">1992</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"1:Treated"</span>, <span class="st">"0:Untreated"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(g1992_1992, year) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mincome =</span> <span class="fu">mean</span>(income)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(g1992_1992, year, mincome) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> year, <span class="at">values_from =</span> mincome,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_prefix =</span> <span class="st">"year"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Long diff</span><span class="st">`</span> <span class="ot">=</span> <span class="st">`</span><span class="at">year1992</span><span class="st">`</span> <span class="sc">-</span> <span class="st">`</span><span class="at">year1991</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ATT_1992_1992 =</span> <span class="st">`</span><span class="at">Long diff</span><span class="st">`</span> <span class="sc">-</span> <span class="fu">lag</span>(<span class="st">`</span><span class="at">Long diff</span><span class="st">`</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">default =</span> <span class="cn">NA</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">column_spec</span>(<span class="dv">5</span>, <span class="at">bold =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic</span>(<span class="at">html_font =</span> <span class="st">"Helvetica"</span>, <span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="lightable-classic table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">g1992_1992</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year1991</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year1992</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Long diff</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">ATT_1992_1992</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0:Untreated</td>
+<td style="text-align: right;">48969.1</td>
+<td style="text-align: right;">49619.81</td>
+<td style="text-align: right;">650.72</td>
+<td style="text-align: right; font-weight: bold;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1:Treated</td>
+<td style="text-align: right;">36660.0</td>
+<td style="text-align: right;">28319.87</td>
+<td style="text-align: right;">-8340.13</td>
+<td style="text-align: right; font-weight: bold;">-8990.85</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<ol start="3" type="1">
+<li>Aggregate the group-time average treatment effects into an event study and plot the results. What do you notice? Is there evidence against parallel trends?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>es <span class="ot">&lt;-</span> did<span class="sc">::</span><span class="fu">aggte</span>(gt_atts, <span class="at">type =</span> <span class="st">"dynamic"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdid</span>(es)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="homework-1_files/figure-html/q1_3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Most of the pre-trends are consistent with a null impact; however, all of the point estimates are positive (indicating earnings may have been trending upward among the treated before the treatment, and the period 2 years before the treatment is inconsistent with the null. It may be possible to reject the null hypothesis since at least one of the pre-periods seems to be inconsistent with the null. However, overall I’m not sure I would argue that there is <em>strong</em> evidence to reject the parallel trends assumption.</p>
+<ol start="4" type="1">
+<li>Aggregate the group-time average treatment effects into a single overall treatment effect. How do you interpret the results?</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>did<span class="sc">::</span><span class="fu">aggte</span>(gt_atts, <span class="at">type =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+did::aggte(MP = gt_atts, type = "simple")
+
+Reference: Callaway, Brantly and Pedro H.C. Sant'Anna.  "Difference-in-Differences with Multiple Time Periods." Journal of Econometrics, Vol. 225, No. 2, pp. 200-230, 2021. &lt;https://doi.org/10.1016/j.jeconom.2020.12.001&gt;, &lt;https://arxiv.org/abs/1803.09015&gt; 
+
+       ATT    Std. Error     [ 95%  Conf. Int.] 
+ -4686.439      2562.385  -9708.621    335.7442 
+
+
+---
+Signif. codes: `*' confidence band does not cover 0
+
+Control Group:  Never Treated,  Anticipation Periods:  0
+Estimation Method:  Doubly Robust</code></pre>
+</div>
+</div>
+<p>If we take the simple average of all of the group-time ATTs, this estimate suggest that job displacement reduces average income by $4686, with a 95% confidence interval of $-9562 to $189.</p>
+</section>
+<section id="question-2" class="level1">
+<h1>Question 2</h1>
+<p>A major issue in the job displacement literature concerns a version of anticipation. In particular, there is some empirical evidence that earnings of displaced workers start to decline <em>before</em> they are actually displaced (a rough explanation is that firms where there are mass layoffs typically “struggle” in the time period before the mass layoff actually takes place and this can lead to slower income growth for workers at those firms).</p>
+<ol type="1">
+<li>Is there evidence of anticipation in your results from Question 1?</li>
+</ol>
+<p>The event study plot in Question 1 makes it difficult to know whether or not there is evidence of anticipation, since the plot fixes the estimate at 1-year prior to the intervention to be zero. However, as noted above, there was some evidence in the pre-trends that could be suggestive of anticipation effects, though these mainly showed slightly larger earnings trends for those eventually treated.</p>
+<ol start="2" type="1">
+<li>Repeat parts (a)-(d) of Question 1 allowing for one year of anticipation.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gt_atts_a <span class="ot">&lt;-</span> did<span class="sc">::</span><span class="fu">att_gt</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yname =</span> <span class="st">"income"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">idname =</span> <span class="st">"id"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tname =</span> <span class="st">"year"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">gname =</span> <span class="st">"group"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">control_group =</span> <span class="st">"nevertreated"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">base_period =</span> <span class="st">"universal"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">anticipation =</span> <span class="dv">1</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> d)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>did<span class="sc">::</span><span class="fu">aggte</span>(gt_atts_a, <span class="at">type =</span> <span class="st">"simple"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+did::aggte(MP = gt_atts_a, type = "simple")
+
+Reference: Callaway, Brantly and Pedro H.C. Sant'Anna.  "Difference-in-Differences with Multiple Time Periods." Journal of Econometrics, Vol. 225, No. 2, pp. 200-230, 2021. &lt;https://doi.org/10.1016/j.jeconom.2020.12.001&gt;, &lt;https://arxiv.org/abs/1803.09015&gt; 
+
+       ATT    Std. Error     [ 95%  Conf. Int.]  
+ -5284.033      2492.514  -10169.27    -398.796 *
+
+
+---
+Signif. codes: `*' confidence band does not cover 0
+
+Control Group:  Never Treated,  Anticipation Periods:  1
+Estimation Method:  Doubly Robust</code></pre>
+</div>
+</div>
+<p>The simple average ATT when allowing for 1-year of anticipation produces an estimate of $-5284 with a 95% CI of -9826 to -742. Overall allowing for 1-year of anticipation produces an estimate that is further from the null than when not allowing for anticipation, though the two estimates are unlikely to be statistically (or economically) distinguishable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>es_a <span class="ot">&lt;-</span> did<span class="sc">::</span><span class="fu">aggte</span>(gt_atts_a, <span class="at">type =</span> <span class="st">"dynamic"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdid</span>(es_a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="homework-1_files/figure-html/q2_3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>If we allow for a 1-year anticipatory effect, the resulting event study plot shows some limited evidence that is consistent with an anticipation story. The estimate for the year just prior to the intervention is a reduction of earnings of $-3839. The confidence bounds on this estimate show that the data are consistent with a reduction of up to $8792, but also with a potential increase of $1105.</p>
+</section>
+<section id="question-3" class="level1">
+<h1>Question 3</h1>
+<p>Now, let’s suppose that we think that parallel trends holds only after we condition on a person sex and race (in reality, you could think of including many other variables in the parallel trends assumption, but let’s just keep it simple). In my view, I think allowing for anticipation is desirable in this setting too, so let’s keep allowing for one year of anticipation.</p>
+<ol type="1">
+<li>Answer parts (a), (c), and (d) of Question 1 but including <code>sex</code> and <code>white</code> as covariates.</li>
+</ol>
+<div style="display: none;">
+
+</div>
+<ol start="2" type="1">
+<li>By default, the <code>did</code> package uses the doubly robust approach that we discussed during our session. How do the results change if you use a regression approach or propensity score re-weighting?</li>
+</ol>
+<div style="display: none;">
+
 </div>
 </section>
-<section id="callaway-and-santanna-including-covariates" class="level1">
-<h1>callaway and sant’anna including covariates</h1>
-<p>cs_x &lt;- att_gt(yname=“lemp”, tname=“year”, idname=“id”, gname=“G”, xformla=~region, control_group=“nevertreated”, base_period=“universal”, data=data2) cs_x_res &lt;- aggte(cs_x, type=“group”) summary(cs_x_res) cs_x_dyn &lt;- aggte(cs_x, type=“dynamic”) ggdid(cs_x_dyn)</p>
+<section id="question-4" class="level1">
+<h1>Question 4</h1>
+<p>Finally, the data that we have contains a variable called <code>occ_score</code> which is roughly a variable that measures the occupation “quality”. Suppose that we (i) are interested in including a person’s occupation in the parallel trends assumption, (ii) are satisfied that <code>occ_score</code> sufficiently summarizes a person’s occupation, but (iii) are worried that a person’s occupation is a “bad control” (in the sense that it could be affected by the treatment).</p>
+<ol type="1">
+<li>Repeat parts (a), (c), and (d) of Question 1 but including <code>occ_score</code> in the parallel trends assumption. Continue to allow for 1 year of anticipation effects.</li>
+</ol>
+<div style="display: none;">
+
+</div>
+<ol start="2" type="1">
+<li>What additional assumptions (with respect to occupation) do you need to make in order to rationalize this approach?</li>
+</ol>
 </section>
 
 </main>
@@ -864,9 +995,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -902,10 +1047,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -915,8 +1059,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -931,6 +1084,241 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -971,6 +1359,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
