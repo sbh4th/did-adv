@@ -1,0 +1,50 @@
+---
+title: "Exercise 1"
+author: Sam Harper
+format: html
+---
+```{r setup, message=F, echo=F}
+pacman::p_load(here, tidyverse, did,
+  haven, kableExtra, modelsummary)
+```
+
+## Question 1
+
+We will start by computing group-time average treatment effects without including any covariates in the parallel trends assumption.
+
+```{r data}
+d <- read_dta(here("data", 
+  "job_displacement_data.dta"))
+glimpse(d)
+kbl(head(d))
+```
+
+1)  Use the `did` package to compute all available group-time average treatment effects.
+
+```{r gt_atts}
+gt_atts <- did::att_gt(
+  yname = "income",
+  idname = "id",
+  tname = "year",
+  gname = "group",
+  control_group = "nevertreated",
+  base_period = "universal",
+  data = d)
+
+modelsummary(gt_atts)
+```
+
+
+# callaway and sant'anna including covariates
+cs_x <- att_gt(yname="lemp",
+               tname="year",
+               idname="id",
+               gname="G",
+               xformla=~region,
+               control_group="nevertreated",
+               base_period="universal",
+               data=data2)
+cs_x_res <- aggte(cs_x, type="group")
+summary(cs_x_res)
+cs_x_dyn <- aggte(cs_x, type="dynamic")
+ggdid(cs_x_dyn)
